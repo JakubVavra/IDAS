@@ -2,32 +2,29 @@ package oracle;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Connection;
 
 /**
  *
  * @author jakubvavra
  */
-public final class DatabaseConnection {
-    private final String hostname = "fei-sql1.upceucebny.cz";
-    private final String port = "1521";
-    private final String SID = "IDAS";
+public class DatabaseConnection {
+    private static final String HOSTNAME = "fei-sql1.upceucebny.cz";
+    private static final String PORT = "1521";
+    private static final String SID = "IDAS";
 
     // Fill your authentication data
-    private final String username = "...";
-    private final String password = "...";
+    private static final String USERNAME = "...";
+    private static final String PASSWORD = "...";
 
-    private final String connectionURL = "jdbc:oracle:thin:@" + hostname + ":" + port + ":" + SID;
+    private static final String URL = "jdbc:oracle:thin:@" + HOSTNAME + ":" + PORT + ":" + SID;
     
     // DatabaseConnection variable
-    public java.sql.Connection connection;
-        
-    public DatabaseConnection() throws ClassNotFoundException, SQLException {
+    public static Connection connection;
+    
+    public static void connect() throws ClassNotFoundException, SQLException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
 
-        this.connection = DriverManager.getConnection(connectionURL, username, password);
-    }
-    
-    public java.sql.Connection getConnection() {
-        return this.connection;
+        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 }

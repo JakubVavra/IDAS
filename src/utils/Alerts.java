@@ -24,4 +24,12 @@ public class Alerts {
 
         alert.showAndWait();
     }
+    
+    public static void showSQLErrorAlert() {
+        Alert alert = new javafx.scene.control.Alert(AlertType.ERROR);
+        alert.setTitle("Nastala chyba!");
+        alert.setHeaderText("Nastala chyba při provádění příkazu!");
+
+        alert.showAndWait();
+    }
 }

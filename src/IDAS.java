@@ -8,11 +8,10 @@ public class IDAS extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/layout/Layout.fxml"));
         Scene scene = new Scene(root);
         
-        stage.setTitle("IDAS");                
+        stage.setTitle("IDAS - Aquapark");                
         stage.setScene(scene);
         stage.show();
     }

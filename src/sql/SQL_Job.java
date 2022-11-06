@@ -58,5 +58,20 @@ public class SQL_Job {
             return false;
         }
     }
-    
 }
+
+/*
+    private void onButtonClick(ActionEvent event) {
+        ArrayList<Job> jobs = SQL_Job.getAllJobs();
+        
+        for (var job : jobs.toArray()) {
+            System.out.println(job.toString());
+        }
+    }
+
+    private void onInsertTestClick(ActionEvent event) {
+        if (SQL_Job.testInsert()) {
+            System.out.println("Successful insert!");
+        }
+    }
+    */

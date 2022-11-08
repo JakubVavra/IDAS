@@ -1,4 +1,4 @@
-package sceens.search;
+package sceens.anonymous.aquaparks;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,7 +11,7 @@ import utils.Alerts;
  *
  * @author jakubvavra
  */
-public class SearchController implements Initializable {
+public class AquaparksController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -20,7 +20,7 @@ public class SearchController implements Initializable {
 
     @FXML
     private void onButtonClick(ActionEvent event) {
-        Alerts.showErrorAlert("Paráda!", "Zmáčkli jste tlačítko ve vyhledávání");
+        Alerts.showErrorAlert("Paráda!", "Zmáčkli jste tlačítko ve aquaparcích!");
     }
 
 }

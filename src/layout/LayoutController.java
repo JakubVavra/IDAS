@@ -5,12 +5,12 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import layout.navbar.anonymous.AnonymousNavbarController;
 import utils.Alerts;
 import oracle.DatabaseConnection;
 
@@ -19,21 +19,29 @@ import oracle.DatabaseConnection;
  * @author jakubvavra
  */
 public class LayoutController implements Initializable {
+    
+    public static String userType = "anonymous";
+    public static String userID = null;
 
+    @FXML
+    private Pane navbar;
     @FXML
     private Pane content;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dbConnection(); 
-
-        content.widthProperty().addListener(e -> setContentHeight());
-        content.heightProperty().addListener(e -> setContentHeight());
-
-        changeScreen("homepage");
-        setContentHeight();
+        setNavbar();
+        
+        navbar.widthProperty().addListener(e -> {
+            setNavbarHeight();
+        });
+        navbar.heightProperty().addListener(e -> {
+            setNavbarHeight();
+        });
     }
 
+    // DB Connection
     public void dbConnection() {
         try {
             DatabaseConnection.connect();
@@ -49,54 +57,46 @@ public class LayoutController implements Initializable {
             System.exit(0);
         }
     }
-
-    public void setContentHeight() {
-        if (content.getChildren().isEmpty()) {
-            return;
-        }
-
-        BorderPane e = (BorderPane) content.getChildren().get(0); 
-
-        double _w = content.getWidth();
-        double _h = content.getHeight();
-
-        e.setPrefWidth(_w);
-        e.setPrefHeight(_h);
-    }
-
-    public void changeScreen(String e) {
-        String path = null;
-
-        switch (e) {
-            case "homepage":
-                path = "/sceens/homepage/Homepage.fxml";
-                break;
-            case "search":
-                path = "/sceens/search/Search.fxml";
+    
+    //Set navbar --------------------------  
+    public void setNavbar() {
+        switch (userType) {
+            case "anonymous":
+                showAnonymousNavbar();
                 break;
             default:
                 break;
         }
+    }
+    
+    public void setNavbarHeight() {
+        if (navbar.getChildren().isEmpty()) {
+            return;
+        }
 
-        if (path == null) return;
+        FlowPane e = (FlowPane) navbar.getChildren().get(0); 
 
+        double _w = navbar.getWidth();
+        double _h = navbar.getHeight();
+
+        e.setPrefWidth(_w);
+        e.setPrefHeight(_h);
+    }
+    
+    public void showAnonymousNavbar() {
         try {
-            BorderPane root = FXMLLoader.load(getClass().getResource(path));
+            String path = "/layout/navbar/anonymous/AnonymousNavbar.fxml";
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+            
+            FlowPane root = (FlowPane)fxmlLoader.load();
+            AnonymousNavbarController controller = fxmlLoader.<AnonymousNavbarController>getController();
+            controller.setContent(content);
 
-            content.getChildren().clear();
-            content.getChildren().add(root);
+            navbar.getChildren().clear();
+            navbar.getChildren().add(root);
 
-            setContentHeight();
+            setNavbarHeight();
         } catch (IOException err) {}
-    }
-
-    @FXML
-    private void onHomepage(ActionEvent event) {
-        changeScreen("homepage");
-    }
-
-    @FXML
-    private void onSearch(ActionEvent event) {
-        changeScreen("search");
     }
 }

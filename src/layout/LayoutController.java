@@ -20,8 +20,8 @@ import oracle.DatabaseConnection;
  */
 public class LayoutController implements Initializable {
     
-    public static String userType = "anonymous";
-    public static String userID = null;
+    private String userType = "anonymous";
+    private String userID = null;
 
     @FXML
     private Pane navbar;
@@ -91,7 +91,7 @@ public class LayoutController implements Initializable {
             
             FlowPane root = (FlowPane)fxmlLoader.load();
             AnonymousNavbarController controller = fxmlLoader.<AnonymousNavbarController>getController();
-            controller.setContent(content);
+            controller.setProps(userType, userID, content);
 
             navbar.getChildren().clear();
             navbar.getChildren().add(root);

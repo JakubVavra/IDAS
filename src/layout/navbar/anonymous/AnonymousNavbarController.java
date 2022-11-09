@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import sceens.anonymous.aquaparks.AquaparksController;
+import sceens.homepage.HomepageController;
 
 /**
  * FXML Controller class
@@ -17,6 +19,9 @@ import javafx.scene.layout.Pane;
  */
 public class AnonymousNavbarController implements Initializable {
     
+    private String userType = null;
+    private String userID = null;
+   
     private Pane content;
 
     /**
@@ -27,7 +32,9 @@ public class AnonymousNavbarController implements Initializable {
         //
     }    
     
-    public void setContent(Pane content) {
+    public void setProps(String userType, String userID, Pane content) {
+        this.userType = userType;
+        this.userID = userID;
         this.content = content;
         
         content.widthProperty().addListener(e -> {
@@ -37,7 +44,7 @@ public class AnonymousNavbarController implements Initializable {
             setContentHeight();
         });
         
-        changeScreen("homepage");
+        onHomepage(null);
         setContentHeight();
     }
     
@@ -55,25 +62,17 @@ public class AnonymousNavbarController implements Initializable {
         e.setPrefWidth(_w);
         e.setPrefHeight(_h);
     }
-    
-    public void changeScreen(String e) {
-        String path = null;
 
-        switch (e) {
-            case "homepage":
-                path = "/sceens/homepage/Homepage.fxml";
-                break;
-            case "aquaparks":
-                path = "/sceens/anonymous/aquaparks/Aquaparks.fxml";
-                break;
-            default:
-                break;
-        }
-
-        if (path == null) return;
-
+    @FXML
+    private void onHomepage(ActionEvent event) {
         try {
-            BorderPane root = FXMLLoader.load(getClass().getResource(path));
+            String path = "/sceens/homepage/Homepage.fxml";
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+            
+            BorderPane root = (BorderPane)fxmlLoader.load();
+            HomepageController controller = fxmlLoader.<HomepageController>getController();
+            controller.setProps(userType, userID);
 
             content.getChildren().clear();
             content.getChildren().add(root);
@@ -83,13 +82,21 @@ public class AnonymousNavbarController implements Initializable {
     }
 
     @FXML
-    private void onHomepage(ActionEvent event) {
-        changeScreen("homepage");
-    }
-
-    @FXML
     private void onAquaparks(ActionEvent event) {
-        changeScreen("aquaparks");
+        try {
+            String path = "/sceens/anonymous/aquaparks/Aquaparks.fxml";
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+            
+            BorderPane root = (BorderPane)fxmlLoader.load();
+            AquaparksController controller = fxmlLoader.<AquaparksController>getController();
+            controller.setProps(userType, userID);
+
+            content.getChildren().clear();
+            content.getChildren().add(root);
+
+            setContentHeight();
+        } catch (IOException err) {}
     }
 
     @FXML

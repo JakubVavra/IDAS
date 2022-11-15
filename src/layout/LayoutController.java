@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import layout.navbar.admin.AdminNavbarController;
 import layout.navbar.anonymous.AnonymousNavbarController;
 import utils.Alerts;
 import oracle.DatabaseConnection;
@@ -20,8 +21,8 @@ import oracle.DatabaseConnection;
  */
 public class LayoutController implements Initializable {
     
-    public static String userType = "anonymous";
-    public static String userID = null;
+    public String userType = "anonymous";
+    public String userID = null;
 
     @FXML
     private Pane navbar;
@@ -45,7 +46,7 @@ public class LayoutController implements Initializable {
     public void dbConnection() {
         try {
             DatabaseConnection.connect();
-            System.out.println("Úspěšně se aplikace připojila k databázi");
+            System.out.println("Uspesne se aplikace pripojila k databazi");
         } catch (ClassNotFoundException | SQLException e) {
             String title = "Nastala chyba!";
             String header = "Nastala chyba při připojování k databázi!";
@@ -61,6 +62,9 @@ public class LayoutController implements Initializable {
     //Set navbar --------------------------  
     public void setNavbar() {
         switch (userType) {
+            case "admin":
+                showAdminNavbar();
+                break;
             case "anonymous":
                 showAnonymousNavbar();
                 break;
@@ -83,6 +87,23 @@ public class LayoutController implements Initializable {
         e.setPrefHeight(_h);
     }
     
+    public void showAdminNavbar() {
+        try {
+            String path = "/layout/navbar/admin/AdminNavbar.fxml";
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+            
+            FlowPane root = (FlowPane)fxmlLoader.load();
+            AdminNavbarController controller = fxmlLoader.<AdminNavbarController>getController();
+            controller.setProps(content, this);
+
+            navbar.getChildren().clear();
+            navbar.getChildren().add(root);
+
+            setNavbarHeight();
+        } catch (IOException err) {}
+    }
+    
     public void showAnonymousNavbar() {
         try {
             String path = "/layout/navbar/anonymous/AnonymousNavbar.fxml";
@@ -91,12 +112,27 @@ public class LayoutController implements Initializable {
             
             FlowPane root = (FlowPane)fxmlLoader.load();
             AnonymousNavbarController controller = fxmlLoader.<AnonymousNavbarController>getController();
-            controller.setContent(content);
+            controller.setProps(content, this);
 
             navbar.getChildren().clear();
             navbar.getChildren().add(root);
 
             setNavbarHeight();
         } catch (IOException err) {}
+    }
+    
+    // Functions
+    public void onLogIn(String email, String password) {
+        if(email.equals("admin") && password.equals("admin")) {
+            userType = "admin";
+            setNavbar();
+        } else {
+            Alerts.showErrorAlert("Chyba!", "Zadali jste nesprávné přihlašovací údaje!");
+        }
+    }
+    
+    public void logOut() {
+        userType = "anonymous";
+        setNavbar();
     }
 }

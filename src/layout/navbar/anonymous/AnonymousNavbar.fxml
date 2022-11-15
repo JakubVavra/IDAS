@@ -8,7 +8,7 @@
    <children>
       <Button mnemonicParsing="false" onAction="#onHomepage" text="Hlavní stránka" />
       <Button mnemonicParsing="false" onAction="#onAquaparks" text="Aquaparky" />
-      <Button mnemonicParsing="false" onAction="#onLogIn" text="Přihlásit" />
+      <Button mnemonicParsing="false" onAction="#onLogIn" text="Přihlásit se" />
    </children>
    <padding>
       <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />

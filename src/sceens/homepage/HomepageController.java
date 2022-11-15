@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import layout.LayoutController;
 import utils.UserType;
 
 /**
@@ -14,8 +15,8 @@ import utils.UserType;
  */
 public class HomepageController implements Initializable {
     
-    private String userType = null;
-    private String userID = null;
+    private LayoutController layoutController;
+    
     @FXML
     private Label userTypeLabel;
 
@@ -24,16 +25,15 @@ public class HomepageController implements Initializable {
         // TODO
     }   
     
-    public void setProps(String userType, String userID) {
-        this.userType = userType;
-        this.userID = userID;
+    public void setProps(LayoutController layoutController) {
+        this.layoutController = layoutController;
         
         updateSceen();
     }
 
     private void updateSceen() {
-        if (userType != null) {
-            userTypeLabel.setText("Typ uživatele - " + UserType.userTypeToString(userType));
+        if (layoutController.userType != null) {
+            userTypeLabel.setText("Typ uživatele - " + UserType.userTypeToString(layoutController.userType));
         }
     }
     

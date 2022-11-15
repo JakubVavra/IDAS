@@ -15,7 +15,7 @@ import static utils.Alerts.showSQLErrorAlert;
 public class SQL_Aquapark {
     
     // Get All Aquaparks
-    private static final String SQL_GET_ALL_AQUAPARKS = "SELECT ID_AQUAPARK, NAZEV_AQUAPARKU, PRACOVNI_HODINY FROM AQUAPARKY";
+    private static final String SQL_GET_ALL_AQUAPARKS = "SELECT ID_AQUAPARK, NAZEV_AQUAPARKU, PRACOVNI_HODINY FROM AQUAPARK";
     public static ArrayList<Aquapark> getAllAquaparks() {
         ArrayList<Aquapark> aquaparks = new ArrayList<>(); 
         

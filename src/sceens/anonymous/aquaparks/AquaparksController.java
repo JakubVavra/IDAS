@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import layout.LayoutController;
 import models.Aquapark;
 import sql.SQL_Aquapark;
 
@@ -15,8 +16,7 @@ import sql.SQL_Aquapark;
  */
 public class AquaparksController implements Initializable {
     
-    private String userType = null;
-    private String userID = null;
+    private LayoutController layoutController;
     
     private ArrayList<Aquapark> aquaparks = new ArrayList<>(); 
     
@@ -25,9 +25,8 @@ public class AquaparksController implements Initializable {
         fetchData();
     }
     
-    public void setProps(String userType, String userID) {
-        this.userType = userType;
-        this.userID = userID;
+    public void setProps(LayoutController layoutController) {
+        this.layoutController = layoutController;
     }
     
     public void fetchData() {

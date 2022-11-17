@@ -12,6 +12,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import layout.navbar.admin.AdminNavbarController;
 import layout.navbar.anonymous.AnonymousNavbarController;
+import layout.navbar.user.UserNavbarController;
 import utils.Alerts;
 import oracle.DatabaseConnection;
 
@@ -65,6 +66,9 @@ public class LayoutController implements Initializable {
             case "admin":
                 showAdminNavbar();
                 break;
+            case "user":
+                showUserNavbar();
+                break;
             case "anonymous":
                 showAnonymousNavbar();
                 break;
@@ -104,6 +108,23 @@ public class LayoutController implements Initializable {
         } catch (IOException err) {}
     }
     
+    public void showUserNavbar() {
+        try {
+            String path = "/layout/navbar/user/UserNavbar.fxml";
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+            
+            FlowPane root = (FlowPane)fxmlLoader.load();
+            UserNavbarController controller = fxmlLoader.<UserNavbarController>getController();
+            controller.setProps(content, this);
+
+            navbar.getChildren().clear();
+            navbar.getChildren().add(root);
+
+            setNavbarHeight();
+        } catch (IOException err) {}
+    }
+    
     public void showAnonymousNavbar() {
         try {
             String path = "/layout/navbar/anonymous/AnonymousNavbar.fxml";
@@ -126,9 +147,16 @@ public class LayoutController implements Initializable {
         if(email.equals("admin") && password.equals("admin")) {
             userType = "admin";
             setNavbar();
-        } else {
-            Alerts.showErrorAlert("Chyba!", "Zadali jste nesprávné přihlašovací údaje!");
+            return;
         }
+        
+        if(email.equals("user") && password.equals("user")) {
+            userType = "user";
+            setNavbar();
+            return;
+        }
+        
+        Alerts.showErrorAlert("Chyba!", "Zadali jste nesprávné přihlašovací údaje!");
     }
     
     public void logOut() {

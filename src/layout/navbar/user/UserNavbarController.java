@@ -1,4 +1,4 @@
-package layout.navbar.admin;
+package layout.navbar.user;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,11 +18,14 @@ import utils.Alerts;
  *
  * @author jakubvavra
  */
-public class AdminNavbarController implements Initializable {
+public class UserNavbarController implements Initializable {
     
     private Pane content;
     private LayoutController layoutController;
 
+    /**
+     * Initializes the controller class.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -57,7 +60,7 @@ public class AdminNavbarController implements Initializable {
         e.setPrefWidth(_w);
         e.setPrefHeight(_h);
     }
-    
+
     @FXML
     private void onHomepage(ActionEvent event) {
         try {
@@ -84,5 +87,6 @@ public class AdminNavbarController implements Initializable {
         if(Alerts.showConfirmationDialog(title, headerText)) {
             layoutController.logOut();
         }
-    }    
+    }
+    
 }
